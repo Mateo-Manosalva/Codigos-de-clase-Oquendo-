@@ -13,12 +13,12 @@ int main(void) {
     std::cout << "Adivina el numero entre 1 y 100 \n";
     std::cin >> guess; // Determina la variable proporcionada
 
-    if (guess == NUM) { // Determina que si sucede una cosa hace x accion y sino realiza y accion
-    std::cout << "Correcto \n";
-    
-    }
-    else {
-    std::cout <<"incorrecto \n";
+    if (guess == NUM) { // Determina que si sucede una cosa hace x accion
+        std::cout << "Correcto \n";
+    } else if (guess < NUM){ // Sino revisa la siguiente condicion
+        std::cout <<"Mas arriba \n";
+    } else { // Sino revisa la ultima condicion
+        std::cout <<"Mas abajo \n";
     }
     
     return 0;
