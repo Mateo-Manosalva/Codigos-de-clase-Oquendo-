@@ -1,0 +1,183 @@
+#include <iostream>
+#include <fstream>
+#include <cmath>
+#include <iomanip>
+
+using namespace std;
+
+// Función potencial V(x)
+double V(double x) {
+    return 2 * x * sin(x);
+}
+
+// Derivada exacta de V(x): dV/dx = 2sin(x) + 2xcos(x)
+double dV_exacta(double x) {
+    return 2 * sin(x) + 2 * x * cos(x);
+}
+
+// Derivada numérica con extrapolación de Richardson
+double dV_richardson(double x, double h) {
+    double D_h = (V(x + h) - V(x - h)) / (2 * h);
+    double D_h2 = (V(x + h / 2) - V(x - h / 2)) / (h);
+    return (4 * D_h2 - D_h) / 3;
+}
+
+int main() {
+    double h = 0.02;
+    double xmin = 0.0 + h;
+    double xmax = 2.5 - h;
+
+    ofstream archivo("campo.txt");
+
+    archivo << scientific << setprecision(16);
+
+    for (double x = xmin; x <= xmax; x += h) {
+        double derivada_exacta = dV_exacta(x);
+        double derivada_numerica = dV_richardson(x, h);
+        double Ex = -derivada_numerica;
+
+        archivo << x << "\t"
+                << -derivada_exacta << "\t"
+                << Ex << endl;
+    }
+
+    archivo.close();
+    return 0;
+}
+
+
+2.0000000000000000e-01    -1.2345678901234567e+00    -1.2345678901234567e+00
+...
+Agregar esto para definir los bordes
+const double h = 0.02;
+const double XMIN = 0.0;
+const double XMAX = 2.5;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Ya correcto
+
+#include <iostream>
+#include <fstream>
+#include <cmath>
+#include <iomanip>
+
+using namespace std;
+
+// Constantes del problema
+const double H = 0.02;
+const double XMIN = 0.0;
+const double XMAX = 2.5;
+
+// Potencial V(x) = 2x sin(x)
+double V(double x) {
+    return 2.0 * x * sin(x);
+}
+
+// Derivada exacta: dV/dx = 2 sin(x) + 2x cos(x)
+double dV_exacta(double x) {
+    return 2.0 * sin(x) + 2.0 * x * cos(x);
+}
+
+// Derivada numérica usando extrapolación de Richardson con derivada centrada
+double dV_richardson(double x, double h) {
+    double D_h = (V(x + h) - V(x - h)) / (2.0 * h);
+    double D_h2 = (V(x + h / 2.0) - V(x - h / 2.0)) / h;
+    return (4.0 * D_h2 - D_h) / 3.0;
+}
+
+int main() {
+    ofstream archivo("campo.txt");
+
+    // Asegurarse de usar notación científica con 16 decimales
+    archivo << scientific << setprecision(16);
+
+    // Recorrer el intervalo desde XMIN hasta XMAX en pasos de H
+    for (double x = XMIN; x <= XMAX; x += H) {
+        double exacta = -dV_exacta(x);
+        double numerica = -dV_richardson(x, H);
+
+        archivo << x << "\t" << exacta << "\t" << numerica << endl;
+    }
+
+    archivo.close();
+    return 0;
+}
+Para sacar el txt
+g++ -o 2 2.cpp
+./2
+
+
+
+
+Lo de python
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Leer los datos del archivo campo.txt
+data = np.loadtxt("campo.txt")
+
+x = data[:, 0]            # Primera columna: x
+exacta = data[:, 1]       # Segunda columna: derivada exacta (-dV/dx)
+numerica = data[:, 2]     # Tercera columna: derivada numérica (-dV/dx con Richardson)
+
+# Crear la gráfica
+plt.figure(figsize=(10, 6))
+plt.plot(x, exacta, label="Campo exacto", color="blue", linewidth=2)
+plt.plot(x, numerica, label="Campo numérico (Richardson)", color="red", linestyle='--')
+
+plt.title("Comparación entre campo eléctrico exacto y numérico")
+plt.xlabel("x")
+plt.ylabel("E(x) = -dV/dx")
+plt.grid(True)
+plt.legend()
+plt.tight_layout()
+plt.show()
+
+
+pa instalar las jodas
+
+pip install numpy matplotlib
+
+
+python graficar_campo.py
+
+
+
+
+Python real real 
+
+import matplotlib.pyplot as plt
+import numpy as np
+# import seaborn as sns
+# sns.set_context("poster")
+
+# read data
+x, h, fr, cr, fe, ce = np.loadtxt("derivatives.txt", unpack=True)
+
+# plot 
+fig, ax = plt.subplots()
+ax.plot(h, fe, '-o', label='error forward')
+ax.plot(h, ce, '-s', label='error central')
+ax.set_xscale('log')
+ax.set_yscale('log')
+ax.set_xlabel('$h$')
+ax.set_ylabel('error')
+ax.legend()
+fig.savefig('deriv.pdf')
+
+
+sin logaritmos, cambiar variables, solo usaremos
