@@ -33,8 +33,10 @@ void print_twin_primes_norms(int N){
         if (is_prime(p) && is_prime(p + 2)) {
             ++count;
             double norma = std::sqrt(p …
-[6:35 p. m., 6/5/2025] Daniela Fisica: y el del python es{
-[6:36 p. m., 6/5/2025] Daniela Fisica: import matplotlib.pyplot as plt
+y el del python es
+
+{
+import matplotlib.pyplot as plt
 import numpy as np
 # import seaborn as sns
 # sns.set_context("poster")
